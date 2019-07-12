@@ -1,6 +1,6 @@
 
 import unittest
-import app
+import app # TODO: This should import app/ and board.py
 
 
 

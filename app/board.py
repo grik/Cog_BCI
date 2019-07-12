@@ -26,7 +26,7 @@ class initBoard(object):
         board_type = board_type.lower()
         if board_type == 'simulator':
             try:
-                from modules.boards.sim_board.board import initBoard
+                from modules.boards.sim_board.board import initBoard #TODO: This is fucked up, should import from ../modules/boards/sim_board.board class initBoard, but it doesnt.
                 print ("Attach {} module...".format(self.board_name))
                 
                 return bci.OpenBCISimulator(
