@@ -1,5 +1,4 @@
-import configparser
-
+import os 
 
 class initBoard(object):
     """ type: class
@@ -11,11 +10,15 @@ class initBoard(object):
         It's possible to use multiple configs for different use.
     """
 
-    def __init__(self, config='app.ini'):
-        self.__config = configparser.ConfigParser()
-        self.__config.read(config)
+    def __init__(self, config='../conf/app.ini'):
+        import configparser
+
+        self.config = configparser.ConfigParser()
+        self.config.read(config)
+        print(self.config.sections())
+        print(self.config['BCI-CONFIGURATION']['bci.board_type'])
         
-        self.board_name = self.__config['BCI-CONFIGURATION']['bci.board_type']
+        self.board_name = self.config['BCI-CONFIGURATION']['bci.board_type']
         self.board = self.connect(self.board_name)
         self.connected = self.board.state
 
@@ -23,12 +26,12 @@ class initBoard(object):
         board_type = board_type.lower()
         if board_type == 'simulator':
             try:
-                import modules.boards.sim_board.board as bci
+                from modules.boards.sim_board.board import initBoard
                 print ("Attach {} module...".format(self.board_name))
                 
                 return bci.OpenBCISimulator(
-                    self.__config['BCI-CUSTOM-OPTS']['bci.sim_electrodes'],
-                    self.__config['BCI-CONFIGURATION']['bci.sampling_rate'],
+                    self.config['BCI-CUSTOM-OPTS']['bci.sim_electrodes'],
+                    self.config['BCI-CONFIGURATION']['bci.sampling_rate'],
                 )
 
             except NameError as e:
@@ -43,4 +46,6 @@ class initBoard(object):
         else: 
             raise ValueError("Incorrect board type: {} \n Please provide valid board name!".format(board_type))
 
-a = initBoard()
+if __name__ == "__main__":
+    a = initBoard()
+    a.board_name
