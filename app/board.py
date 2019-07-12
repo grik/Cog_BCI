@@ -17,7 +17,7 @@ class initBoard(object):
         
         self.board_name = self.__config['BCI-CONFIGURATION']['bci.board_type']
         self.board = self.connect(self.board_name)
-        self.connected = False
+        self.connected = self.board.state
 
     def connect(self, board_type):
         board_type = board_type.lower()

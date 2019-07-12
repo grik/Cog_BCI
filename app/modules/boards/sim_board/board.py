@@ -41,6 +41,9 @@ class OpenBCISimulator(object):
         #self.data = np.loadtxt(self.path, delimiter)[:, self.channels]
         print("{} connected!".format(self.__class__.__name__))
 
+        # Ready as connected.
+        self.state = True
+
     def start_streaming(self, callback):
         """
         Strams the data from given file, simulating OpenBCI
