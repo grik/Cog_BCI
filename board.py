@@ -10,7 +10,7 @@ class initBoard(object):
         It's possible to use multiple configs for different use.
     """
 
-    def __init__(self, config='../conf/app.ini'):
+    def __init__(self, config='conf/app.ini'):
         import configparser
 
         self.config = configparser.ConfigParser()
@@ -26,7 +26,8 @@ class initBoard(object):
         board_type = board_type.lower()
         if board_type == 'simulator':
             try:
-                from modules.boards.sim_board.board import initBoard #TODO: This is fucked up, should import from ../modules/boards/sim_board.board class initBoard, but it doesnt.
+                print (os.getcwd())
+                from modules.boards.sim_board import sim_board as bci
                 print ("Attach {} module...".format(self.board_name))
                 
                 return bci.OpenBCISimulator(

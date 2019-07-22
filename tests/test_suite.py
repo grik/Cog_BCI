@@ -1,7 +1,6 @@
 
 import unittest
-import app # TODO: This should import app/ and board.py
-
+from Cog_BCI import board as app
 
 
 class TestBoardInit(unittest.TestCase):
