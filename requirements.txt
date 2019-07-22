@@ -1,1 +1,1 @@
-openbci-python==1.0.2
+openbci-python==1.4
