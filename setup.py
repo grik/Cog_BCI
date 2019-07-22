@@ -1,7 +1,6 @@
 from setuptools import setup, find_packages
 import sys
 import os
-sys.path.insert(0, os.getcwd())
 
 setup(name='Cog_BCI',
       version='0.0.0',
