@@ -1,12 +1,15 @@
-import os 
+import os
+from modules.boards.sim_board import sim_board as bci
+from pyOpenBCI import OpenBCICyton
+
 
 class initBoard(object):
     """ type: class
-    Select type of device for connect to BCI 
+    Select type of device for connect to BCI
     Parameters
     ----------
     config : string
-        Config file to load. Must be in app directory. 
+        Config file to load. Must be in app directory.
         It's possible to use multiple configs for different use.
     """
 
@@ -17,7 +20,7 @@ class initBoard(object):
         self.config.read(config)
         print(self.config.sections())
         print(self.config['BCI-CONFIGURATION']['bci.board_type'])
-        
+
         self.board_name = self.config['BCI-CONFIGURATION']['bci.board_type']
         self.board = self.connect(self.board_name)
         self.connected = self.board.state
@@ -26,10 +29,9 @@ class initBoard(object):
         board_type = board_type.lower()
         if board_type == 'simulator':
             try:
-                print (os.getcwd())
-                from modules.boards.sim_board import sim_board as bci
-                print ("Attach {} module...".format(self.board_name))
-                
+                print(os.getcwd())
+                print("Attach {} module...".format(self.board_name))
+
                 return bci.OpenBCISimulator(
                     self.config['BCI-CUSTOM-OPTS']['bci.sim_electrodes'],
                     self.config['BCI-CONFIGURATION']['bci.sampling_rate'],
@@ -39,14 +41,20 @@ class initBoard(object):
                 raise e
 
         elif board_type == 'cyton':
-            pass
-            
+            try:
+                board = OpenBCICyton(daisy = False)
+                print("Cyton connected")
+            except:
+                print("Cyton is not connected - something fucked up")
+
+
         elif board_type == 'ganglion':
             pass
-            
-        else: 
+
+        else:
             raise ValueError("Incorrect board type: {} \n Please provide valid board name!".format(board_type))
 
 if __name__ == "__main__":
     a = initBoard()
-    a.board_name
+    #a.board_name
+    a.connect("cyton")
